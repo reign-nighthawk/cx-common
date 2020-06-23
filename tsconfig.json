@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "removeComments": false,
+    "declaration": true,
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    /* 模块分析配置 */
+    "baseUrl": ".",
+    "outDir": "./lib",
+  },
+  "include": [
+    "src",
+    "typings"
+  ]
+}
