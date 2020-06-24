@@ -1,6 +1,6 @@
 {
   "name": "lq-common",
-  "version": "1.0.64",
+  "version": "1.0.65",
   "description": "LeQi common tools",
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
