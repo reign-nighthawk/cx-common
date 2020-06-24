@@ -22,7 +22,7 @@ export default class MiniTrack {
   private step = 0
   private serverUrl: string
   private device: IDevice
-  constructor(option: { appKey: string; serverUrl: string }) {
+  constructor (option: { appKey: string; serverUrl: string }) {
     if (!option || !option.appKey || !option.serverUrl) {
       console.log('%cMissing required parameter', 'color:#C0392B')
       return
@@ -31,35 +31,35 @@ export default class MiniTrack {
     this.serverUrl = option.serverUrl
     this.getPlatform(res => {
       switch (res) {
-        case 'wechat_applet':
-          this.refactoringPage()
-          break
-        case 'alipay_applet':
-          this.refactoringPage()
-          break
-        case 'bd_applet':
-          this.refactoringPage()
-          break
-        case 'qq_applet':
-          this.refactoringPage()
-          break
-        case 'byte_applet':
-          this.refactoringPage()
-          break
-        default:
-          console.log('%cNo platform matching', 'color:#C0392B')
-          break
+      case 'wechat_applet':
+        this.refactoringPage()
+        break
+      case 'alipay_applet':
+        this.refactoringPage()
+        break
+      case 'bd_applet':
+        this.refactoringPage()
+        break
+      case 'qq_applet':
+        this.refactoringPage()
+        break
+      case 'byte_applet':
+        this.refactoringPage()
+        break
+      default:
+        console.log('%cNo platform matching', 'color:#C0392B')
+        break
       }
       res && console.log(`%c${this.platform} MiniTrack Load`, 'color:#2ECC71')
     })
   }
-  public login(id: string): void {
+  public login (id: string): void {
     this.userId = id
   }
-  public trackCustom(event): void {
+  public trackCustom (event): void {
     this.assemblyData({ event: 'CUSTOM', arg: { event_name: event } })
   }
-  private getPlatform(cb): void {
+  private getPlatform (cb): void {
     if (typeof qq !== 'undefined') {
       this.platform = 'qq_applet'
       this.API = qq
@@ -79,7 +79,7 @@ export default class MiniTrack {
     this.assembleSystemData()
     cb(this.platform)
   }
-  private assembleSystemData() {
+  private assembleSystemData () {
     this.API.getSystemInfo({
       success: res => {
         this.appVerison = res.version
@@ -94,10 +94,10 @@ export default class MiniTrack {
       },
     })
   }
-  private track(event: string): void {
+  private track (event: string): void {
     this.assemblyData({ event })
   }
-  private trackAppStart(event: string): void {
+  private trackAppStart (event: string): void {
     this.assemblyData({
       event,
       callBack: () => {
@@ -105,7 +105,7 @@ export default class MiniTrack {
       },
     })
   }
-  private trackAppHide(event: string): void {
+  private trackAppHide (event: string): void {
     this.assemblyData({
       event,
       callBack: () => {
@@ -113,7 +113,7 @@ export default class MiniTrack {
       },
     })
   }
-  private trackError(event, error: string): void {
+  private trackError (event, error: string): void {
     let errInfo = error.split('\n')
     if (!noEmptyArray(errInfo)) return
     if (errInfo.length < 3) return
@@ -122,18 +122,18 @@ export default class MiniTrack {
       arg: { event_name: errInfo[0], event_params: errInfo[0] + errInfo[1] },
     })
   }
-  private trackPageShow(event): void {
+  private trackPageShow (event): void {
     let pages = getCurrentPages()
     pages.length !== 0 && (this.currentRouter = pages[pages.length - 1].route)
     this.assemblyData({ event })
   }
-  private trackClick(params): void {
+  private trackClick (params): void {
     this.assemblyData({
       event: 'CLICK',
       arg: { event_name: params.event_name, element: params.element },
     })
   }
-  private assemblyData<T>(params: {
+  private assemblyData<T> (params: {
     event: string
     arg?: { event_name: string; event_params?: string; element?: T }
     callBack?: Function
@@ -164,10 +164,10 @@ export default class MiniTrack {
     this.identity
       ? tcapData()
       : this.setIdentity(() => {
-          tcapData()
-        })
+        tcapData()
+      })
   }
-  private setIdentity(cb: Function): void {
+  private setIdentity (cb: Function): void {
     this.getCache('lq-track-identity', res => {
       const recordIdentity = () => {
         this.identity = UUID()
@@ -177,29 +177,29 @@ export default class MiniTrack {
       cb(res)
     })
   }
-  private cleanUpCache(key): void {
+  private cleanUpCache (key): void {
     this.API.removeStorage({
       key: key,
     })
   }
-  private setCache(key: string, data: any): void {
+  private setCache (key: string, data: any): void {
     this.API.setStorage({
       key: key,
       data: data,
     })
   }
-  private getCache(key: string, callBack: Function): void {
+  private getCache (key: string, callBack: Function): void {
     this.API.getStorage({
       key: key,
-      success(res) {
+      success (res) {
         callBack(res.data)
       },
-      fail(err) {
+      fail (err) {
         callBack(null)
       },
     })
   }
-  private timeToUpload(): void {
+  private timeToUpload (): void {
     const timetask = () => {
       if (noEmptyArray(this.currentData)) {
         this.sendRequest()
@@ -208,7 +208,7 @@ export default class MiniTrack {
     }
     setInterval(timetask(), 3000)
   }
-  private sendRequest() {
+  private sendRequest () {
     let data = this.currentData
     this.currentData = []
     this.API.request({
@@ -217,7 +217,7 @@ export default class MiniTrack {
       method: 'POST',
     })
   }
-  private getMethods(option) {
+  private getMethods (option) {
     let mpHook = {
       data: 1,
       onLoad: 1,
@@ -240,7 +240,7 @@ export default class MiniTrack {
     }
     return methods
   }
-  private click_proxy(option, method) {
+  private click_proxy (option, method) {
     let oldFunc = option[method]
     let self = this
     option[method] = function (...args) {
@@ -264,7 +264,7 @@ export default class MiniTrack {
       return oldFunc && oldFunc.apply(this, args)
     }
   }
-  private isClick(type) {
+  private isClick (type) {
     let mpTaps = {
       tap: 1,
       longpress: 1,
@@ -272,31 +272,31 @@ export default class MiniTrack {
     }
     return !!mpTaps[type]
   }
-  private mp_proxy(option, method, event): void {
+  private mp_proxy (option, method, event): void {
     const self = this
     let oldFunc = option[method]
     option[method] = function () {
       switch (method) {
-        case 'onShow':
-          self.trackPageShow(event)
-          break
-        case 'onError':
-          self.trackError(event, arguments[0])
-          break
-        case 'onHide':
-          self.trackAppHide(event)
-          break
-        case 'onLaunch':
-          self.trackAppStart(event)
-          break
-        default:
-          self.track(event)
-          break
+      case 'onShow':
+        self.trackPageShow(event)
+        break
+      case 'onError':
+        self.trackError(event, arguments[0])
+        break
+      case 'onHide':
+        self.trackAppHide(event)
+        break
+      case 'onLaunch':
+        self.trackAppStart(event)
+        break
+      default:
+        self.track(event)
+        break
       }
       oldFunc && oldFunc.apply(this, arguments)
     }
   }
-  private refactoringPage(): void {
+  private refactoringPage (): void {
     const _Page = Page
     const _App = App
     const _Component = Component

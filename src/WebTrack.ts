@@ -5,7 +5,7 @@
  */
 const WebTrack = {
   init: () => {
-    console.log(`%cWebTrack Load`, 'color:#2ECC71')
+    console.log('%cWebTrack Load', 'color:#2ECC71')
     window.addEventListener('hashchange', function (event) {
       console.log(event)
     })

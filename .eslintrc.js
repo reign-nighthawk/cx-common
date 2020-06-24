@@ -4,7 +4,6 @@ const eslintrc = {
   extends: [
     'eslint:recommended', // eslint 推荐规则
     'plugin:@typescript-eslint/recommended', // ts 推荐规则
-    'plugin:prettier/recommended',
   ],
   plugins: ['@typescript-eslint'],
   env: {

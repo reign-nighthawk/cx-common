@@ -3,6 +3,7 @@
   "version": "1.0.65",
   "description": "LeQi common tools",
   "main": "lib/index.js",
+  "types":"lib/src/index.d.js",
   "module": "lib/index.esm.js",
   "typings": "lib/index.d.js",
   "scripts": {
@@ -11,8 +12,7 @@
     "api": "api-extractor run",
     "lint": "eslint --ext .js,.ts ./src",
     "lint:fix": "eslint --fix --ext .js,.ts ./src",
-    "changelog": "gulp changelog",
-    "prepublishOnly": "yarn lint & yarn test & yarn changelog & yarn build"
+    "prepublishOnly": "yarn lint & yarn test & yarn build"
   },
   "author": "tangcx",
   "license": "ISC",
@@ -54,7 +54,6 @@
     "chalk": "^4.0.0",
     "conventional-changelog-cli": "^2.0.34",
     "eslint": "^7.1.0",
-    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jest": "^23.13.2",
     "fs-extra": "^9.0.1",
     "gulp": "^4.0.2",
