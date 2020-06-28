@@ -21,6 +21,7 @@ const log = {
 const paths = {
   root: path.join(__dirname, '/'),
   lib: path.join(__dirname, '/lib'),
+  src: path.join(__dirname, '/lib/src'),
 }
 
 
@@ -50,10 +51,25 @@ const buildByRollup: TaskFunc = async (cb) => {
     log.progress('Rollup built successfully')
   }
 }
-
+const rmSrc: TaskFunc = async (cb) => {
+  await tcapSrc()
+  cb()
+}
+const tcapSrc = () => {
+  return new Promise((res)=>{
+    setTimeout(() => {
+      fse.copySync(paths.src,paths.lib)
+      // fse.emptyDirSync(paths.src)
+      fse.removeSync(paths.src)
+      fse.chmodSync(paths.lib,'777')
+      log.progress('Declaration File built successfully')
+      res()
+    }, 1000)
+  })
+}
 const complete: TaskFunc = (cb) => {
   log.progress('---- end ----')
   cb()
 }
 
-export const build = series(clearLibFile, buildByRollup, complete)
+export const build = series(clearLibFile, buildByRollup,rmSrc,complete)

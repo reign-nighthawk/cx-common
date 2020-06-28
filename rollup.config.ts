@@ -55,7 +55,7 @@ const rollupConfig : RollupOptions = {
       },
     }),
     rollupTypescript({
-      // useTsconfigDeclarationDir:true,
+      useTsconfigDeclarationDir:false,
     }),
     babel({
       runtimeHelpers: true,

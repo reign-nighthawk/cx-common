@@ -3,13 +3,11 @@
   "version": "1.0.66",
   "description": "LeQi common tools",
   "main": "lib/index.js",
-  "types": "lib/src/index.d.js",
+  "types": "lib/index.d.js",
   "module": "lib/index.esm.js",
-  "typings": "lib/index.d.js",
   "scripts": {
     "build": "gulp build",
     "test": "jest --verbose -u",
-    "api": "api-extractor run",
     "lint": "eslint --ext .js,.ts ./src",
     "lint:fix": "eslint --fix --ext .js,.ts ./src",
     "prepublishOnly": "yarn lint & yarn test & yarn build"
@@ -66,7 +64,7 @@
     "rollup-plugin-eslint": "^7.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^6.1.0",
-    "rollup-plugin-typescript2": "^0.27.1",
+    "rollup-plugin-typescript2": "^0.26.0",
     "ts-jest": "^26.1.0",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.5"

@@ -30,6 +30,8 @@
     ],
     "removeComments": false,
     "declaration": true,
+    "declarationDir":"./lib",
+    "typeRoots":["./typings","./node_modules/@types"],
     "sourceMap": true,
 
     /* 强类型检查配置 */
