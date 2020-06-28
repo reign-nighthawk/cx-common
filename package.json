@@ -1,6 +1,6 @@
 {
   "name": "lq-common",
-  "version": "1.0.66",
+  "version": "1.0.67",
   "description": "LeQi common tools",
   "main": "lib/index.js",
   "types": "lib/index.d.js",
