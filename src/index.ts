@@ -14,7 +14,7 @@ const exports = {
   ...Optimization,
   ...Calculate,
 }
-if(typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+if(typeof module !== 'undefined') {
   module.exports = exports
 }
 else {

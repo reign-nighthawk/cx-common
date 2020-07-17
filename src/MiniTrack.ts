@@ -240,7 +240,7 @@ export default class MiniTrack {
     }
     return methods
   }
-  private click_proxy (option, method) {
+  private click_proxy (option, method,isCom = false) {
     let oldFunc = option[method]
     let self = this
     option[method] = function (...args) {
@@ -256,7 +256,7 @@ export default class MiniTrack {
       }
       if (type && self.isClick(type)) {
         let params = {
-          event_name: method,
+          event_name: isCom ? `c_${method}` : method,
           element: prop,
         }
         self.trackClick(params)
@@ -324,7 +324,7 @@ export default class MiniTrack {
         let methods = self.getMethods(option.methods)
         if (methods) {
           for (let i = 0, len = methods.length; i < len; i++) {
-            self.click_proxy(option.methods, methods[i])
+            self.click_proxy(option.methods, methods[i],true)
           }
         }
         _Component.apply(this, arguments)

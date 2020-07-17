@@ -18,6 +18,6 @@ export const isObject = (obj) => {
   if (obj === undefined || obj === null) {
     return false
   } else {
-    return (toString.call(obj) == '[object Object]')
+    return (toString.call(obj) === '[object Object]')
   }
 }
