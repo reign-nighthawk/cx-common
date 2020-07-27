@@ -272,6 +272,7 @@ export default class MiniTrack {
       tap: 1,
       longpress: 1,
       longtap: 1,
+      submit: 1,
     }
     return !!mpTaps[type]
   }
