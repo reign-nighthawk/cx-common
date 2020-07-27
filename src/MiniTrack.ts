@@ -56,6 +56,9 @@ export default class MiniTrack {
   public login (id: string): void {
     this.userId = id
   }
+  public getIdentity (){
+    return this.identity
+  }
   public trackCustom (event): void {
     this.assemblyData({ event: 'CUSTOM', arg: { event_name: event } })
   }
@@ -124,7 +127,7 @@ export default class MiniTrack {
   }
   private trackPageShow (event): void {
     let pages = getCurrentPages()
-    pages.length !== 0 && (this.currentRouter = pages[pages.length - 1].route)
+    pages.length !== 0 && (this.platform === 'byte_applet' ? this.currentRouter = pages[pages.length - 1].__route__ : this.currentRouter = pages[pages.length - 1].route)
     this.assemblyData({ event })
   }
   private trackClick (params): void {

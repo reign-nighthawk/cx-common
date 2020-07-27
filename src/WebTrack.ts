@@ -32,13 +32,16 @@ const WebTrack = {
     if(params.Vue){
       this.vueTcap(params)
     }else{
-      this.reactTcap()
+      this.reactTcap(params)
     }
   },
-  reactTcap:function (){
+  login (userId){
+    this.userId = userId
+  },
+  reactTcap:function (params){
     this.router_proxy()
     this.prepareData(()=>{
-      this.trackAppStart()
+      this.trackAppStart(params)
     })
     window.onerror = (message, file, line, column, errorObject) => {
       this.trackError(errorObject)
@@ -48,7 +51,7 @@ const WebTrack = {
     // this.deepWatch(params.App)
     this.router_proxy()
     this.prepareData(()=>{
-      this.trackAppStart()
+      this.trackAppStart(params)
     })
     params.Router.beforeEach((to, from, next) => {
       if( typeof to.matched[0].components.default === 'function'){
@@ -206,19 +209,31 @@ const WebTrack = {
     identity ? (this.identity = identity) : recordIdentity()
     cb(identity)
   },     
-  trackAppStart: function () {
-    this.assemblyData({
-      event: 'START',
-      callBack: () => {
+  trackAppStart: function (params) {
+    if(params.undoStart){
+      params.udfIdentity && (this.identity = params.udfIdentity)
+      this.currentRouter = window.location.href
+      this.trackPageShow(()=>{
         this.timeToUpload()
-      },
-    })
+      })
+    }else{
+      this.assemblyData({
+        event: 'START',
+        callBack: () => {
+          this.currentRouter = window.location.href
+          this.trackPageShow(()=>{
+            this.timeToUpload()
+          })
+        },
+      })
+    }
   },
   trackCustom (event): void {
     this.assemblyData({ event: 'CUSTOM', arg: { event_name: event } })
   },
-  trackPageShow: function () {
+  trackPageShow: function (callBack) {
     this.assemblyData({ event:'VIEW' })
+    callBack && callBack()
   },
   trackClick: function (params) {
     this.assemblyData({
