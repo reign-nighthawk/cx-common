@@ -297,7 +297,11 @@ export default class MiniTrack {
         self.track(event)
         break
       }
-      oldFunc && oldFunc.apply(this, arguments)
+      if(oldFunc){
+        return oldFunc.apply(this, arguments)
+      }else{
+        return {}
+      }
     }
   }
   private refactoringPage (): void {
