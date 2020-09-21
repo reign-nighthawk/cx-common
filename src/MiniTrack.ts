@@ -22,6 +22,7 @@ export default class MiniTrack {
   private step = 0
   private serverUrl: string
   private device: IDevice
+  private errTmpData: Array<IUploadData> = []
   constructor (option: { appKey: string; serverUrl: string }) {
     if (!option || !option.appKey || !option.serverUrl) {
       console.log('%cMissing required parameter', 'color:#C0392B')
@@ -173,6 +174,7 @@ export default class MiniTrack {
   private setIdentity (cb: Function): void {
     this.getCache('lq-track-identity', res => {
       const recordIdentity = () => {
+        if(this.identity) return
         this.identity = UUID()
         this.setCache('lq-track-identity', this.identity)
       }
@@ -203,21 +205,32 @@ export default class MiniTrack {
     })
   }
   private timeToUpload (): void {
-    const timetask = () => {
+    // const timetask = () => {
+    //   if (noEmptyArray(this.currentData)) {
+    //     this.sendRequest()
+    //   }
+    //   return timetask
+    // }
+    // setInterval(timetask(), 5000)
+    setInterval(_=>{
       if (noEmptyArray(this.currentData)) {
         this.sendRequest()
       }
-      return timetask
-    }
-    setInterval(timetask(), 3000)
+    },5000)
   }
   private sendRequest () {
-    let data = this.currentData
+    let data = [...this.errTmpData,...this.currentData]
     this.currentData = []
     this.API.request({
       url: `${this.serverUrl}/${this.appKey}/event/${this.platform}`,
       data: data,
       method: 'POST',
+      success:res=>{
+        this.errTmpData = []
+      },
+      fail:err=>{
+        this.errTmpData = data
+      },
     })
   }
   private getMethods (option) {
