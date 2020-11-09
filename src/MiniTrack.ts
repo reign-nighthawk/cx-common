@@ -155,7 +155,7 @@ export default class MiniTrack {
         path: this.currentRouter || '',
         sdk_version: +pkg.version.split('.')[2],
         sdk_type: this.platform,
-        app_verison: this.appVerison,
+        app_version: this.appVerison,
         ...(params.arg &&
           params.arg.element && { element: params.arg.element }),
         ...(params.arg &&

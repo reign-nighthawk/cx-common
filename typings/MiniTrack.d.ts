@@ -18,7 +18,7 @@ declare interface IUploadData{
   app_user_id?:string,
   sdk_version:number,
   sdk_type:string,
-  app_verison:string,
+  app_version:string,
   event_params?:string
   device?:IDevice
 }
