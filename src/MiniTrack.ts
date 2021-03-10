@@ -60,8 +60,8 @@ export default class MiniTrack {
   public getIdentity (){
     return this.identity
   }
-  public trackCustom (event): void {
-    this.assemblyData({ event: 'CUSTOM', arg: { event_name: event } })
+  public trackCustom (eventName,eventParams): void {
+    this.assemblyData({ event: 'CUSTOM', arg: { event_name: eventName ,...(eventParams && {event_params:eventParams}) } })
   }
   private getPlatform (cb): void {
     if (typeof qq !== 'undefined') {
@@ -123,7 +123,7 @@ export default class MiniTrack {
     if (errInfo.length < 3) return
     this.assemblyData({
       event,
-      arg: { event_name: errInfo[0], event_params: errInfo[0] + errInfo[1] },
+      arg: { event_name: errInfo[0], event_params: {errInfo:errInfo[0] + errInfo[1]} },
     })
   }
   private trackPageShow (event): void {
@@ -139,7 +139,7 @@ export default class MiniTrack {
   }
   private assemblyData<T> (params: {
     event: string
-    arg?: { event_name: string; event_params?: string; element?: T }
+    arg?: { event_name: string; event_params?: Object; element?: T }
     callBack?: Function
   }) {
     const tcapData = () => {
@@ -205,18 +205,18 @@ export default class MiniTrack {
     })
   }
   private timeToUpload (): void {
-    // const timetask = () => {
-    //   if (noEmptyArray(this.currentData)) {
-    //     this.sendRequest()
-    //   }
-    //   return timetask
-    // }
-    // setInterval(timetask(), 5000)
-    setInterval(_=>{
+    const timetask = () => {
       if (noEmptyArray(this.currentData)) {
         this.sendRequest()
       }
-    },5000)
+      return timetask
+    }
+    setInterval(timetask(), 5000)
+    // setInterval(_=>{
+    //   if (noEmptyArray(this.currentData)) {
+    //     this.sendRequest()
+    //   }
+    // },5000)
   }
   private sendRequest () {
     let data = [...this.errTmpData,...this.currentData]
