@@ -23,13 +23,17 @@ export default class MiniTrack {
   private serverUrl: string
   private device: IDevice
   private errTmpData: Array<IUploadData> = []
-  constructor (option: { appKey: string; serverUrl: string }) {
+  constructor (option: { appKey: string,serverUrl: string,platform?:string }) {
     if (!option || !option.appKey || !option.serverUrl) {
       console.log('%cMissing required parameter', 'color:#C0392B')
       return
     }
     this.appKey = option.appKey
     this.serverUrl = option.serverUrl
+    if(option.platform){
+      this.setPlatform(option.platform)
+      return
+    }
     this.getPlatform(res => {
       switch (res) {
       case 'wechat_applet':
@@ -63,6 +67,36 @@ export default class MiniTrack {
   public trackCustom (eventName,eventParams): void {
     this.assemblyData({ event: 'CUSTOM', arg: { event_name: eventName ,...(eventParams && {event_params:eventParams}) } })
   }
+  private setPlatform (platform:string){
+    if(platform !== 'wechat_applet' && platform !== 'alipay_applet' && platform !== 'bd_applet' && platform !== 'qq_applet' && platform !== 'byte_applet' ){
+      console.log('%cIllegal parameter platform', 'color:#C0392B')
+      return
+    }
+    this.platform = platform
+    switch (platform) {
+    case 'wechat_applet':
+      this.API = wx
+      break
+    case 'alipay_applet':
+      this.API = my
+      break
+    case 'bd_applet':
+      this.API = swan
+      break
+    case 'qq_applet':
+      this.API = qq
+      break
+    case 'byte_applet':
+      this.API = tt
+      break
+    default:
+      console.log('%cNo platform matching', 'color:#C0392B')
+      break
+    }
+    console.log(`%c${this.platform} MiniTrack Load`, 'color:#2ECC71')
+    this.assembleSystemData()
+    this.refactoringPage()
+  }
   private getPlatform (cb): void {
     if (typeof qq !== 'undefined') {
       this.platform = 'qq_applet'
@@ -70,12 +104,12 @@ export default class MiniTrack {
     } else if (typeof tt !== 'undefined') {
       this.platform = 'byte_applet'
       this.API = tt
-    } else if (typeof wx !== 'undefined') {
-      this.platform = 'wechat_applet'
-      this.API = wx
     } else if (typeof my !== 'undefined') {
       this.platform = 'alipay_applet'
       this.API = my
+    } else if (typeof wx !== 'undefined') {
+      this.platform = 'wechat_applet'
+      this.API = wx
     } else if (typeof swan !== 'undefined') {
       this.platform = 'bd_applet'
       this.API = swan
