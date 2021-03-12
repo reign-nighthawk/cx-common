@@ -23,13 +23,15 @@ export default class MiniTrack {
   private serverUrl: string
   private device: IDevice
   private errTmpData: Array<IUploadData> = []
-  constructor (option: { appKey: string,serverUrl: string,platform?:string }) {
+  private autoTrackClick: boolean
+  constructor (option: { appKey: string,serverUrl: string,platform?:string,autoTrackClick?:boolean }) {
     if (!option || !option.appKey || !option.serverUrl) {
       console.log('%cMissing required parameter', 'color:#C0392B')
       return
     }
     this.appKey = option.appKey
     this.serverUrl = option.serverUrl
+    this.autoTrackClick = option.autoTrackClick === undefined ? true : option.autoTrackClick
     if(option.platform){
       this.setPlatform(option.platform)
       return
@@ -364,10 +366,12 @@ export default class MiniTrack {
       _App.apply(this, arguments)
     }
     Page = function (page) {
-      let methods = self.getMethods(page)
-      if (noEmptyArray(methods)) {
-        for (let i = 0, len = methods.length; i < len; i++) {
-          self.click_proxy(page, methods[i])
+      if(self.autoTrackClick){
+        let methods = self.getMethods(page)
+        if (noEmptyArray(methods)) {
+          for (let i = 0, len = methods.length; i < len; i++) {
+            self.click_proxy(page, methods[i])
+          }
         }
       }
       self.mp_proxy(page, 'onShow', 'VIEW')
@@ -376,10 +380,12 @@ export default class MiniTrack {
     }
     Component = function (option) {
       try {
-        let methods = self.getMethods(option.methods)
-        if (methods) {
-          for (let i = 0, len = methods.length; i < len; i++) {
-            self.click_proxy(option.methods, methods[i],true)
+        if(self.autoTrackClick){
+          let methods = self.getMethods(option.methods)
+          if (methods) {
+            for (let i = 0, len = methods.length; i < len; i++) {
+              self.click_proxy(option.methods, methods[i],true)
+            }
           }
         }
         _Component.apply(this, arguments)
