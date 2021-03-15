@@ -29,6 +29,7 @@ const WebTrack = {
     console.log('%cWebTrack Load', 'color:#2ECC71')
     this.appKey = params.appKey
     this.serverUrl = params.serverUrl
+    params.platform && (this.platform = params.platform)
     if(params.Vue){
       this.vueTcap(params)
     }else{
@@ -228,8 +229,8 @@ const WebTrack = {
       })
     }
   },
-  trackCustom (event): void {
-    this.assemblyData({ event: 'CUSTOM', arg: { event_name: event } })
+  trackCustom (eventName,eventParams): void {
+    this.assemblyData({ event: 'CUSTOM', arg: { event_name: eventName ,...(eventParams && {event_params:eventParams}) } })
   },
   trackPageShow: function (callBack) {
     this.assemblyData({ event:'VIEW' })

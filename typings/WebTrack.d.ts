@@ -5,6 +5,7 @@ interface IWebInit{
   serverUrl:string,
   undoStart?:boolean
   udfIdentity?:string
+  platform?:string
 }
 interface Window {
   addHistoryListener: (T,U)=>{};
