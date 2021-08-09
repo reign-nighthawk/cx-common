@@ -1,14 +1,18 @@
-# LeQi Web Tools 
-LeQi Tools library exported as Node.js modules. 
+# LeQi Web Tools
 
-## Installation 
-Using npm: 
+Javascript Tools library exported as Node.js modules.
+
+## Installation
+
+Using npm:
+
 ```
-npm i lq-common 
-yarn add lq-common
+npm i cx-common
+yarn add cx-common
 ```
 
 ## UsingActivator
+
 ```
-import {ToolName} from 'lq-common'
+import {ToolName} from 'cx-common'
 ```
