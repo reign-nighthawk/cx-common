@@ -1,7 +1,7 @@
 {
-  "name": "lq-common",
+  "name": "cx-common",
   "version": "1.1.10",
-  "description": "LeQi common tools",
+  "description": "Javascript tools",
   "main": "lib/index.js",
   "types": "lib/index.d.js",
   "module": "lib/index.esm.js",
