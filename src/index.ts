@@ -18,5 +18,5 @@ if(typeof module !== 'undefined') {
   module.exports = exports
 }
 else {
-  window['lq-common'] = exports
+  window['cx-common'] = exports
 }
