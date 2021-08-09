@@ -1,4 +1,4 @@
-# LeQi Web Tools
+# Javascript Tools
 
 Javascript Tools library exported as Node.js modules.
 
