@@ -294,7 +294,7 @@ const WebTrack = {
     const data = this.currentData
     this.currentData = []
     const httpRequest = new XMLHttpRequest()
-    httpRequest.open('POST', `${this.serverUrl}/${this.appKey}/event/${this.platform}`, true)
+    httpRequest.open('POST', this.serverUrl, true)
     httpRequest.setRequestHeader('Content-type', 'application/json')
     httpRequest.send(JSON.stringify(data))
   },

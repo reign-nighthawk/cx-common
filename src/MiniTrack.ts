@@ -258,7 +258,7 @@ export default class MiniTrack {
     let data = [...this.errTmpData,...this.currentData]
     this.currentData = []
     this.API.request({
-      url: `${this.serverUrl}/${this.appKey}/event/${this.platform}`,
+      url: this.serverUrl,
       data: data,
       method: 'POST',
       success:res=>{
